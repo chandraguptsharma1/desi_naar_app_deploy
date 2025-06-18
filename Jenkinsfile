@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_USER = 'samchandra1100'
-        DOCKER_HUB_PASS = credentials('dockerhub-pass') 
+        DOCKER_HUB_PASS = credentials('docker_hub') 
         IMAGE_NAME = 'desi-naar-app'
     }
 
