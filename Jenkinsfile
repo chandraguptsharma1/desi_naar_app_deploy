@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_HUB_USER = 'samchandra1100'
+    DOCKER_HUB_USER = 'samchandra1100' //  username
     IMAGE_NAME = 'desi-naar-app'
   }
 
