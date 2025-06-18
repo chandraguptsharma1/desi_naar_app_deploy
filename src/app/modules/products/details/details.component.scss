@@ -1,0 +1,85 @@
+/* Image Hover Effect */
+img {
+  transition: none;
+}
+
+img:hover {
+  transform: none;
+}
+
+/* Button Styles */
+button {
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* WhatsApp Floating Button */
+a.fixed {
+  transition: all 0.3s ease-in-out;
+}
+
+a.fixed:hover {
+  opacity: 0.8;
+}
+
+/* Active size button */
+button.bg-black {
+  border: 2px solid black;
+}
+
+/* Zoom container styles */
+.product-image-container {
+  position: relative;
+  
+  .main-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.zoom-window {
+  position: absolute;
+  width: 150px;  /* Smaller fixed width */
+  height: 150px; /* Smaller fixed height */
+  border: 2px solid #ddd;
+  background-color: white;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+  &.active {
+    display: block;
+  }
+
+  img {
+    position: absolute;
+    max-width: none;
+  }
+}
+
+/* Main image styles */
+img {
+  transition: none;
+}
+
+/* Zoom lens styles */
+.zoom-lens {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  transition: opacity 0.3s ease;
+}
+
+/* Cursor styles */
+.cursor-zoom-in {
+  cursor: zoom-in;
+}

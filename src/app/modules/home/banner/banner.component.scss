@@ -1,0 +1,46 @@
+/* carousel.component.css */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ddd;
+  transition: all 0.5s ease;
+}
+
+/* Animation for sliding dots */
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+    background-color: #ddd;
+  }
+  50% {
+    transform: translateX(30px);
+    background-color: #007bff;
+  }
+  100% {
+    transform: translateX(0);
+    background-color: #ddd;
+  }
+}
+
+/* Styling for active dot */
+.dot.active {
+  background-color: #007bff;
+}
+
+.carousel-section,
+.carousel,
+.carousel-inner,
+.carousel-item {
+}
+
+.carousel-item img {
+}

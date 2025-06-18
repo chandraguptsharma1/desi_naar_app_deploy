@@ -1,0 +1,84 @@
+<div
+  id="demo"
+  class="carousel slide"
+  data-bs-ride="carousel"
+  data-bs-interval="3000"
+>
+  <div class="carousel-inner">
+    <div
+      class="carousel-item"
+      *ngFor="let item of carouselItems; let i = index"
+      [class.active]="activeIndex === i"
+    >
+      <!-- Image + Overlay -->
+      <div class="relative w-full">
+        <picture>
+          <source [srcset]="item.mobileImage" media="(max-width: 768px)" />
+          <img
+            [src]="item.desktopImage"
+            alt="Slide Image"
+            class="d-block w-100"
+          />
+        </picture>
+
+        <!-- Desktop Overlay -->
+        <div
+          class="hidden md:flex flex-col absolute left-12 bottom-16 text-white max-w-sm"
+        >
+          <h2 class="text-4xl font-semibold mb-4 leading-snug">
+            {{ item.desktopTitle }}
+          </h2>
+          <button
+            class="bg-gray-700 text-white px-6 py-2 text-sm uppercase tracking-widest w-max"
+          >
+            {{ item.buttonText }}
+          </button>
+        </div>
+
+        <!-- Indicator Dots -->
+        <div
+          class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"
+        >
+          <div
+            *ngFor="let indicator of carouselItems; let j = index"
+            class="w-2 h-2 rounded-full bg-white transition-opacity duration-300"
+            [class.opacity-100]="activeIndex === j"
+            [class.opacity-30]="activeIndex !== j"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Mobile view (text below image) -->
+      <div class="block md:hidden bg-white py-6 text-center">
+        <h2 class="text-2xl font-semibold text-[#595858] mb-4">
+          {{ item.mobileTitle }}
+        </h2>
+        <button
+          class="bg-[#595858] hover:bg-[#595858] text-white px-6 py-2 text-sm uppercase tracking-widest"
+        >
+          {{ item.buttonText }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#demo"
+    data-bs-slide="prev"
+    (click)="prevSlide()"
+  >
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#demo"
+    data-bs-slide="next"
+    (click)="nextSlide()"
+  >
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>

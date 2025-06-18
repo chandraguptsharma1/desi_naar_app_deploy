@@ -1,0 +1,166 @@
+<header
+  class="border-b w-full bg-gradient-to-r text-gray-700 py-4 px-2 top-0 z-50"
+>
+  <div class="max-w-screen-2xl mx-auto flex items-center justify-between">
+    <!-- Left: Logo & Hamburger -->
+    <div class="flex items-center space-x-4">
+      <button class="lg:hidden text-xl" (click)="toggleDrawer()">
+        <i class="fas fa-bars text-[#c2c1c1]"></i>
+      </button>
+
+      <div class="text-2xl font-bold font-bahnschrift tracking-tight uppercase">
+        DESI NAAR
+      </div>
+    </div>
+
+    <!-- Center Navigation (Desktop) -->
+    <nav
+      class="hidden lg:flex space-x-6 text-xs tracking-wider font-medium uppercase"
+    >
+      <a (click)="productpage()" class="hover:opacity-80 cursor-pointer">ALL</a>
+      <a href="#" class="hover:opacity-80">NEW ARRIVAL</a>
+      <a href="#" class="hover:opacity-80">CATEGORY</a>
+      <a href="#" class="hover:opacity-80">COLLECTION</a>
+      <a href="#" class="hover:opacity-80">CONTACT US</a>
+    </nav>
+
+    <!-- Right Icons -->
+    <div class="flex items-center space-x-4 text-[#c2c1c1] text-lg">
+      <!-- Social Icons (Desktop only) -->
+      <div class="hidden lg:flex space-x-4">
+        <a href="#" class="hover:text-black">
+          <i class="fab fa-facebook-square"></i>
+        </a>
+        <a href="#" class="hover:text-black">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <div class="h-5 w-px bg-[#b9b9b9] mx-2"></div>
+      </div>
+
+      <!-- Always-visible Icons -->
+      <button class="hover:opacity-75" (click)="toggleSearch()">
+        <i class="fas fa-search"></i>
+      </button>
+      <div class="relative">
+        <button (click)="Login()" class="hover:opacity-75" (click)="toggleUserMenu()">
+          <i class="fas fa-user"></i>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <!-- <div
+          *ngIf="isUserMenuOpen"
+          class="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded shadow-lg z-50 text-sm"
+        >
+          <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+            <a
+            (click)="Login()"
+              href="/profile"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              <i class="fas fa-user-circle mr-2"></i>
+              Profile
+            </a>
+            <button
+              (click)="logout()"
+              class="flex items-center w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              <i class="fas fa-sign-out-alt mr-2"></i>
+              Logout
+            </button> -->
+          <!-- </ng-container> -->
+
+          <!-- <ng-template #notLoggedIn>
+            <a
+              (click)="Login()"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              <i class="fas fa-sign-in-alt mr-2"></i>
+              Sign In
+            </a>
+            <a
+              (click)="register()"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              <i class="fas fa-user-plus mr-2"></i>
+              Sign Up
+            </a>
+          </ng-template> -->
+        <!-- </div> -->
+      </div>
+      <button (click)="cartPage()" class="hover:opacity-75">
+        <i class="fas fa-shopping-cart"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer Overlay -->
+  <div *ngIf="isDrawerOpen" class="fixed inset-0 z-50 flex">
+    <!-- Drawer -->
+    <div
+      class="w-4/5 bg-white p-6 flex flex-col h-full transform transition-transform duration-300"
+      [ngClass]="{
+        '-translate-x-full': !isDrawerVisible,
+        'translate-x-0': isDrawerVisible
+      }"
+    >
+      <!-- Close Button -->
+      <div class="flex justify-between items-center mb-6">
+        <button (click)="toggleDrawer()" class="text-2xl text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Content -->
+      <div class="flex flex-col justify-between flex-1">
+        <!-- Menu Links -->
+        <nav class="flex flex-col space-y-4 text-sm font-semibold uppercase">
+          <a (click)="productpage()" class="hover:opacity-80 block">All</a>
+          <a href="#" class="hover:opacity-80 block">New Arrival</a>
+          <a href="#" class="hover:opacity-80 block">Category</a>
+          <a href="#" class="hover:opacity-80 block">Collection</a>
+          <a href="#" class="hover:opacity-80 block">Contact Us</a>
+        </nav>
+
+        <!-- Social Icons (Mobile Bottom) -->
+        <div class="pt-6 flex space-x-4">
+          <a href="#" class="text-gray-700 text-2xl">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="text-gray-700 text-2xl">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backdrop -->
+    <div
+      class="flex-1 bg-slate-500 bg-opacity-40"
+      (click)="toggleDrawer()"
+    ></div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div
+    *ngIf="isSearchOpen"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center pt-6"
+  >
+    <div
+      class="w-full max-w-xl bg-white rounded-lg mx-4 flex items-center px-4 py-3 shadow-lg relative animate-slide-down"
+    >
+      <i class="fas fa-search text-gray-400 text-lg mr-3"></i>
+      <input
+        type="text"
+        placeholder="What are you looking for?"
+        class="flex-grow outline-none text-base text-gray-800 placeholder-gray-400"
+        autofocus
+      />
+      <button
+        (click)="toggleSearch()"
+        class="absolute right-4 top-3 text-gray-400 text-xl"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+</header>

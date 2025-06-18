@@ -1,0 +1,38 @@
+<section class="bg-[#F8F5EE] py-10 px-4">
+  <div class="container mx-auto">
+    <!-- Section Title -->
+    <div class="mb-6 text-start">
+      <h2 class="text-4xl font-bold uppercase tracking-wide">
+        NEW ARRIVALS - HUSN
+      </h2>
+      <a
+        href="#"
+        class="text-lg text-black underline hover:text-gray-600 transition"
+        >View All</a
+      >
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let product of products"
+        class="text-center group"
+        (click)="detailsPage()"
+      >
+        <!-- Product Image -->
+        <div class="overflow-hidden rounded-md">
+          <img
+            [src]="product.image"
+            [alt]="product.name"
+            class="w-full h-[500px] object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        <!-- Product Name & Price -->
+        <h3 class="text-lg font-semibold mt-3 text-gray-900">
+          {{ product.name }}
+        </h3>
+        <p class="text-gray-700 font-medium">{{ product.price }}</p>
+      </div>
+    </div>
+  </div>
+</section>

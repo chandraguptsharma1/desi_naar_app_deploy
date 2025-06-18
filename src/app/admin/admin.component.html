@@ -1,0 +1,27 @@
+<div class="flex h-screen bg-[#ffffff]">
+  <!-- Sidebar -->
+  <div
+    [ngClass]="sidebarOpen ? 'block w-20' : 'hidden sm:block sm:w-20'"
+    class="bg-white border-r transition-all duration-300 ease-in-out fixed sm:relative z-50 h-full"
+  >
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Main Content -->
+  <div
+    [ngClass]="sidebarOpen ? 'ml-20' : 'ml-0 sm:ml-20'"
+    class="flex-1 p-1 overflow-y-auto transition-all duration-300 ease-in-out"
+  >
+    <!-- Hamburger button (only on mobile) -->
+    <div class="sm:hidden mb-4">
+      <button
+        (click)="toggleSidebar()"
+        class="p-1 bg-[#dad7d7] text-white rounded"
+      >
+        ☰
+      </button>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

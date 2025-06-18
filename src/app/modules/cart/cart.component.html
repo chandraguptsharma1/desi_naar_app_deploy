@@ -1,0 +1,106 @@
+<div class="px-4 py-4 bg-white flex justify-center">
+  <!-- Unified Centered Container -->
+  <div class="w-full max-w-5xl">
+    <!-- Page Title -->
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-10">Cart</h2>
+
+    <!-- Table Header -->
+    <div
+      class="hidden md:grid grid-cols-4 text-xs uppercase text-gray-500 font-semibold border-b pb-2 mb-4"
+    >
+      <div class="col-span-2">Product</div>
+      <div>Price</div>
+      <div class="text-right">Quantity</div>
+    </div>
+
+    <!-- Cart Item -->
+    <!-- Cart Items -->
+    <div *ngIf="isCartEmpty" class="text-center py-12 text-gray-600">
+      🛒 Your cart is empty. <br />
+      <a
+        routerLink="/products"
+        class="text-indigo-600 underline mt-2 inline-block"
+        >Start shopping</a
+      >
+    </div>
+    <div *ngIf="!isCartEmpty">
+      <div
+        *ngFor="let item of cartItems"
+        class="grid grid-cols-1 md:grid-cols-4 gap-4 border-b pb-4 mb-4 items-center"
+      >
+        <!-- Product Image & Info -->
+        <div class="col-span-2 flex gap-4 items-start">
+          <img
+           [src]="(item.productID?.imageUrls?.[0]) || (item.imageUrls?.[0])"
+            alt="Product"
+            class="w-[100px] h-auto border object-cover"
+          />
+          <div>
+            <p class="text-gray-800 font-medium">{{ item.productID?.title || item.title }}</p>
+            <p class="text-sm text-gray-500">
+              Sizes: {{ item.productID?.sizes?.join(', ') || item.sizes?.join(', ') }}<br />
+              Colors: {{ item.productID?.colors?.join(', ') || item.colors?.join(', ') }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="text-gray-700">
+          INR  {{ (item.productID?.price || item.price) | number : '1.0-2' }}
+        </div>
+
+        <!-- Quantity & Remove -->
+        <div class="text-right">
+          <input
+            type="number"
+            [value]="item.quantity"
+            (change)="updateQuantity(item, $any($event.target).value)"
+            class="w-16 text-center border border-gray-300 rounded-sm p-1 text-sm mb-1"
+          />
+          <div>
+            <button
+              (click)="deletecart(item)"
+              class="text-xs text-gray-600 underline hover:text-red-600"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Centered Special Instructions + Checkout -->
+    <!-- Centered Special Instructions + Checkout -->
+    <div
+      class="w-full flex flex-col md:flex-row justify-between items-start gap-8 border-t pt-6"
+    >
+      <!-- Special Instructions -->
+      <div class="w-full md:w-2/3">
+        <label
+          for="instructions"
+          class="block text-sm font-medium text-[#595858] mb-1"
+          >Special instructions</label
+        >
+        <textarea
+          id="instructions"
+          rows="3"
+          class="w-full border border-gray-300 rounded-sm p-2 text-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 resize-none"
+        >
+        </textarea>
+      </div>
+
+      <!-- Checkout Summary -->
+      <div class="w-full md:w-1/3 text-right mt-6 md:mt-0">
+        <div class="text-xl text-[#595858] mb-1">
+          INR {{ totalPrice | number : "1.0-2" }}
+        </div>
+        <p class="text-sm text-[#595858] mb-4">
+          Shipping and taxes calculated at checkout
+        </p>
+        <button (click)="checkout()" class="bg-[#595858] text-white px-6 py-2 text-sm transition">
+          CHECK OUT
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

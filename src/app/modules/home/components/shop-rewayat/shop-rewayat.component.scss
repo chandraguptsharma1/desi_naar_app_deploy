@@ -1,0 +1,15 @@
+/* Ensures images have a uniform size */
+img {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.group:hover img {
+  transform: scale(1.05);
+}
+
+/* Button Hover Effect */
+p:hover {
+  background-color: #333;
+  color: white;
+}

@@ -1,0 +1,187 @@
+<div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+  <!-- Left: Product Image and Thumbnails -->
+  <div>
+    <!-- Main Image/Video Container -->
+    <div class="product-image-container border bg-gray-50">
+      <!-- Video Player -->
+      <iframe
+        *ngIf="showVideo && videoUrl"
+        [src]="videoUrl"
+        class="w-full h-[600px]"
+        allow="autoplay"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+      <!-- Main Image -->
+      <img
+        #mainImg
+        *ngIf="!showVideo"
+        [src]="mainImage"
+        [alt]="product.title"
+        class="main-image max-h-[600px] object-contain cursor-zoom-in"
+        (mousemove)="handleMouseMove($event)"
+        (mouseenter)="handleMouseEnter()"
+        (mouseleave)="handleMouseLeave()"
+      />
+      <!-- Zoom Window (only show for images) -->
+      <div 
+        *ngIf="!showVideo"
+        class="zoom-window" 
+        [class.active]="isZoomed"
+        [ngStyle]="zoomStyle"
+      ></div>
+    </div>
+
+    <!-- Detail Images and Video Button -->
+    <div class="mt-4 grid grid-cols-7 gap-2">
+      <!-- Detail Image Thumbnails -->
+      <div 
+        *ngFor="let img of detailImages" 
+        class="aspect-[3/4] border cursor-pointer hover:border-black relative"
+        [class.border-black]="mainImage === img && !showVideo"
+        (click)="setMainImage(img)"
+      >
+        <img
+          [src]="img"
+          [alt]="product.title"
+          class="absolute inset-0 w-full h-full object-contain"
+        />
+      </div>
+      <!-- Video Button (at the end) -->
+      <div 
+        *ngIf="videoUrl"
+        class="aspect-[3/4] border cursor-pointer hover:bg-gray-100 relative bg-gray-50 flex items-center justify-center group"
+        [class.border-black]="showVideo"
+        (click)="showVideoPlayer()"
+      >
+        <div class="flex flex-col items-center">
+          <i class="fas fa-play-circle text-3xl" [class.text-gray-800]="showVideo" [class.text-gray-600]="!showVideo"></i>
+          <span class="text-[10px] mt-1" [class.text-gray-800]="showVideo" [class.text-gray-600]="!showVideo">Play Video</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Product Info -->
+  <div class="space-y-6">
+    <div>
+      <h2 class="text-2xl font-semibold">{{ product.title }}</h2>
+      <p class="text-lg text-[#595858] font-medium">
+        Rs. {{ product.price | number : "1.0-2" }}
+      </p>
+    </div>
+
+    <div class="text-sm text-[#595858]">
+      <p><strong>SKU:</strong> {{ product.sku }}</p>
+    </div>
+
+    <div>
+      <label class="block text-[#595858]  mb-1">Size:</label>
+      <div class="flex space-x-2">
+        <button
+          *ngFor="let size of product.sizes"
+          class="px-3 py-1 border hover:bg-gray-100"
+        >
+          {{ size }}
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-[#595858]  mb-1">Color:</label>
+      <div class="flex space-x-2">
+        <button
+          *ngFor="let color of product.colors"
+          class="px-3 py-1 border hover:bg-gray-100"
+        >
+          {{ color }}
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col space-y-3">
+      <button (click)="addToCart()" class="bg-black text-white px-6 py-2">Add to Cart</button>
+      <button class="border px-6 py-2 hover:bg-gray-100">Buy It Now</button>
+    </div>
+
+    <!-- Icon Section -->
+    <!-- Product Description Accordion -->
+    <div class="border-t border-gray-300 pt-4 mt-6">
+      <div
+        class="flex justify-between items-center cursor-pointer"
+        (click)="isDescriptionOpen = !isDescriptionOpen"
+      >
+        <h3 class="text-sm text-[#595858]">Product Description</h3>
+        <span class="text-sm text-[#595858]">
+          <i
+            class="fas"
+            [ngClass]="isDescriptionOpen ? 'fa-minus' : 'fa-plus'"
+          ></i>
+        </span>
+      </div>
+
+      <div
+        *ngIf="isDescriptionOpen"
+        class="mt-4 text-sm text-[#595858] leading-relaxed"
+      >
+        <p>{{ product.description }}</p>
+      </div>
+    </div>
+
+    <!-- Fabric, Fit & Care Section -->
+    <!-- Fabric, Fit & Care Accordion -->
+    <div class="mt-6 border-t border-gray-200 pt-4">
+      <div
+        class="flex justify-between items-center cursor-pointer"
+        (click)="isFabricOpen = !isFabricOpen"
+      >
+        <h3 class="text-sm  text-[#595858] uppercase">
+          Fabric, Fit & Care
+        </h3>
+        <span class="text-sm text-[#595858]">
+          <i class="fas" [ngClass]="isFabricOpen ? 'fa-minus' : 'fa-plus'"></i>
+        </span>
+      </div>
+
+      <div *ngIf="isFabricOpen" class="mt-4">
+        <ul class="list-disc list-inside text-sm text-[#595858] space-y-1">
+          <li>Fabric: {{product?.fabricCare?.fabric}}</li>
+          <li>Color: {{product?.fabricCare?.color}}</li>
+          <li>Work Type: {{product?.fabricCare?.workType}}</li>
+          <li>Delivery Timeline: {{product?.fabricCare?.deliveryTimeline}} Working Days</li>
+          <li>Set Includes: {{product?.fabricCare?.setIncludes}}</li>
+          <li>Kurta length - {{product?.fabricCare?.kurtaLength}}", Pants Length - {{product?.fabricCare?.pantsLength}}"</li>
+          <li>
+            In every size, the top and bottom lengths are an additional half
+            inch.
+          </li>
+          <li>Wash: {{product?.fabricCare?.washCare}}</li>
+          <li>Style Code: {{product?.fabricCare?.styleCode}}</li>
+        </ul>
+      </div>
+    </div>
+    <!-- Delivery and Returns Accordion -->
+<div class="mt-6 border-t border-gray-200 pt-4">
+  <div class="flex justify-between items-center cursor-pointer" (click)="isDeliveryOpen = !isDeliveryOpen">
+    <h3 class="text-sm  text-[#595858] uppercase">Delivery and Returns</h3>
+    <span class="text-sm text-[#595858]">
+      <i class="fas" [ngClass]="isDeliveryOpen ? 'fa-minus' : 'fa-plus'"></i>
+    </span>
+  </div>
+
+  <div *ngIf="isDeliveryOpen" class="mt-4">
+    <ul class="list-disc list-inside text-sm text-[#595858] space-y-1">
+      <li>{{product?.deliveryAndReturns?.domesticShipping}} Shipping For All Orders Within India</li>
+      <li>Flat INR {{product?.deliveryAndReturns?.internationalShipping}} Shipping Fees For All International Orders</li>
+      <li>Domestic Deliveries Take {{product?.deliveryAndReturns?.domesticTime}} Working Days Post Dispatch</li>
+      <li>International Deliveries Take {{product?.deliveryAndReturns?.internationalTime}} Working Days Post Dispatch</li>
+      <li>{{product?.deliveryAndReturns?.returnPolicy}}.</li>
+    </ul>
+    <p class="text-sm text-[#595858] mt-4">
+      The colors seen in the image may vary from the actual product due to different computer screen resolutions and displays.
+    </p>
+  </div>
+</div>
+
+  </div>
+</div>

@@ -1,0 +1,20 @@
+input {
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+/* Social Media Icons */
+i {
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+i:hover {
+  opacity: 0.75;
+}
+input::placeholder {
+  color: #e1e2e4; /* Change to your desired color */
+}

@@ -1,0 +1,203 @@
+<app-center-loader
+  [show]="loading"
+  message="Fetching products..."
+></app-center-loader>
+
+<div class="mx-auto max-w-screen-xl px-4 sm:px-8">
+  <!-- Header with Add Button -->
+  <div class="flex flex-col sm:flex-row items-center justify-between pb-6">
+    <h2 class="text-2xl font-semibold text-gray-700">Products List</h2>
+    <div class="mt-4 sm:mt-0">
+      <button
+        (click)="addProdut()"
+        class="flex items-center gap-2 bg-[#595858] px-5 py-2 text-sm text-white hover:bg-[#4a4a4a] transition-colors duration-200"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        Add Product
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Container -->
+  <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-[#595858]">
+        <tr>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">
+            <span class="cursor-pointer flex items-center gap-2" (click)="toggleSort('_id')">
+              ID
+              <svg *ngIf="sortField === '_id'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" [class.rotate-180]="sortDirection === 'desc'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+              </svg>
+            </span>
+          </th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">Image</th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">
+            <span class="cursor-pointer flex items-center gap-2" (click)="toggleSort('title')">
+              Title
+              <svg *ngIf="sortField === 'title'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" [class.rotate-180]="sortDirection === 'desc'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+              </svg>
+            </span>
+          </th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">
+            <span class="cursor-pointer flex items-center gap-2" (click)="toggleSort('sku')">
+              SKU
+              <svg *ngIf="sortField === 'sku'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" [class.rotate-180]="sortDirection === 'desc'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+              </svg>
+            </span>
+          </th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">
+            <span class="cursor-pointer flex items-center gap-2" (click)="toggleSort('price')">
+              Price
+              <svg *ngIf="sortField === 'price'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" [class.rotate-180]="sortDirection === 'desc'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+              </svg>
+            </span>
+          </th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">Sizes</th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">Colors</th>
+          <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-white">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white">
+        <tr *ngFor="let product of paginatedProducts; let i = index" class="hover:bg-gray-50">
+          <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600">
+            {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+          </td>
+          <td class="whitespace-nowrap px-4 py-4">
+            <img [src]="product.imageUrls[0]" alt="Product" class="h-16 w-16 rounded-lg object-cover border border-gray-200"/>
+          </td>
+          <td class="px-4 py-4">
+            <div class="text-sm font-medium text-gray-900">{{ product.title }}</div>
+          </td>
+          <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600">
+            {{ product.sku }}
+          </td>
+          <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600">
+            ₹{{ product.price }}
+          </td>
+          <td class="px-4 py-4">
+            <div class="flex flex-wrap gap-1">
+              <span *ngFor="let size of product.sizes" 
+                    class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                {{ size }}
+              </span>
+            </div>
+          </td>
+          <td class="px-4 py-4">
+            <div class="flex flex-wrap gap-1">
+              <span *ngFor="let color of product.colors"
+                    class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                {{ color }}
+              </span>
+            </div>
+          </td>
+          <td class="whitespace-nowrap px-4 py-4 text-sm">
+            <div class="flex gap-2">
+              <button (click)="editProduct(product)"
+                      class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 hover:bg-yellow-100">
+                Edit
+              </button>
+              <button (click)="deleteProduct(product)"
+                      class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+        <!-- Empty State -->
+        <tr *ngIf="!loading && paginatedProducts.length === 0">
+          <td colspan="8" class="px-4 py-8 text-center">
+            <div class="flex flex-col items-center justify-center text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              </svg>
+              <p class="mt-4 text-sm">No products found.</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-4">
+    <div class="flex flex-1 justify-between sm:hidden">
+      <button
+        (click)="changePage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        [class.opacity-50]="currentPage === 1"
+      >
+        Previous
+      </button>
+      <button
+        (click)="changePage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        [class.opacity-50]="currentPage === totalPages"
+      >
+        Next
+      </button>
+    </div>
+    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+      <div>
+        <p class="text-sm text-gray-700">
+          Showing
+          <span class="font-medium">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
+          to
+          <span class="font-medium">
+            {{ Math.min(currentPage * itemsPerPage, totalItems) }}
+          </span>
+          of
+          <span class="font-medium">{{ totalItems }}</span>
+          results
+        </p>
+      </div>
+      <div>
+        <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1"
+            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            [class.opacity-50]="currentPage === 1"
+          >
+            <span class="sr-only">Previous</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button
+            *ngFor="let page of pages"
+            (click)="changePage(page)"
+            [class.bg-[#595858]]="currentPage === page"
+            [class.text-white]="currentPage === page"
+            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          >
+            {{ page }}
+          </button>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages"
+            class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            [class.opacity-50]="currentPage === totalPages"
+          >
+            <span class="sr-only">Next</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div *ngIf="loading" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white"></div>
+</div>

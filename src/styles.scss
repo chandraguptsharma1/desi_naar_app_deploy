@@ -1,0 +1,30 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+  
+ 
+
+@font-face {
+  font-family: 'BahnschriftSemiBoldCondensed';
+  src: url('./assets/fonts/BAHNSCHRIFT.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  font-family: "Bahnschrift SemiBold Condensed", "Bahnschrift", "Segoe UI", sans-serif;
+}

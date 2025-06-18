@@ -1,0 +1,27 @@
+/* Card Shadow Fix */
+.border {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  border-radius: 6px; /* Match the original */
+}
+
+/* Image Hover Effect */
+img {
+  transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+  transform: scale(1.03);
+}
+
+/* Button Styling */
+button {
+  padding: 10px 20px;
+  background-color: #000;
+  color: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #333;
+}
