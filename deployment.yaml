@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desi-naar-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: desi-naar
+  template:
+    metadata:
+      labels:
+        app: desi-naar
+    spec:
+      containers:
+        - name: desi-naar-container
+          image: desi_naar_app:latest
+          ports:
+            - containerPort: 80
