@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_USER = 'samchandra1100'
-        DOCKER_HUB_PASS = credentials('dockerhub-pass') // Jenkins secret
+        DOCKER_HUB_PASS = credentials('dockerhub-pass') 
         IMAGE_NAME = 'desi-naar-app'
     }
 
