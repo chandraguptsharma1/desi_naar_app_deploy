@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_HUB_USER = 'samchandra1100' //  username docker hub
+    DOCKER_HUB_USER = 'samchandra1100' //  username docker 
     IMAGE_NAME = 'desi-naar-app'
   }
 
