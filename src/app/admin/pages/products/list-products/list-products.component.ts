@@ -50,7 +50,7 @@ export class ListProductsComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Error loading products', error);
+        console.error('Error loading products ==>', error);
         this.loading = false;
       }
     );
