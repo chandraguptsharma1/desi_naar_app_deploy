@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('Checkout Code') {
       steps {
-        git 'https://github.com/chandraguptsharma1/desi_naar_app.git'
+        git 'https://github.com/chandraguptsharma1/desi_naar_app_deploy.git'
       }
     }
 
