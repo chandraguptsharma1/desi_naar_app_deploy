@@ -1,10 +1,11 @@
 pipeline {
   agent any
 
-  environment {
-    IMAGE_NAME = 'desi_naar_app'
-    CONTAINER_NAME = 'desi_naar_container'
-  }
+    environment {
+        DOCKER_HUB_USER = 'samchandra1100'
+        DOCKER_HUB_PASS = credentials('dockerhub-pass') // Jenkins secret
+        IMAGE_NAME = 'desi-naar-app'
+    }
 
   triggers {
     githubPush()
@@ -29,20 +30,18 @@ pipeline {
       }
     }
 
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t $IMAGE_NAME .'
+      stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:latest .'
+            }
       }
-    }
 
-    stage('Run Docker Container') {
-      steps {
-        sh '''
-          docker rm -f $CONTAINER_NAME || true
-          docker run -d -p 4200:80 --name $CONTAINER_NAME $IMAGE_NAME
-        '''
-      }
-    }
+   stage('Push Docker Image') {
+            steps {
+                sh 'echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin'
+                sh 'docker push $DOCKER_HUB_USER/$IMAGE_NAME:latest'
+            }
+        }
 
     stage('Deploy to Kubernetes') {
   steps {

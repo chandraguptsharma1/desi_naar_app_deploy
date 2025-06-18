@@ -13,7 +13,7 @@ spec:
         app: desi-naar
     spec:
       containers:
-        - name: desi-naar-container
-          image: desi_naar_app:latest
-          ports:
-            - containerPort: 80
+      - name: desi-naar-container
+        image: samchandra1100/desi-naar-app:latest
+        ports:
+        - containerPort: 80
