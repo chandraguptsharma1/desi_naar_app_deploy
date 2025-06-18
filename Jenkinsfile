@@ -1,11 +1,10 @@
 pipeline {
   agent any
 
-    environment {
-        DOCKER_HUB_USER = 'samchandra1100'
-        DOCKER_HUB_PASS = credentials('dockerhub-pass') //jenkin
-        IMAGE_NAME = 'desi-naar-app'
-    }
+  environment {
+    DOCKER_HUB_USER = 'samchandra1100'
+    IMAGE_NAME = 'desi-naar-app'
+  }
 
   triggers {
     githubPush()
@@ -30,28 +29,31 @@ pipeline {
       }
     }
 
-      stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:latest .'
-            }
+    stage('Build Docker Image') {
+      steps {
+        sh 'docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:latest .'
       }
+    }
 
-   stage('Push Docker Image') {
-            steps {
-                sh 'echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin'
-                sh 'docker push $DOCKER_HUB_USER/$IMAGE_NAME:latest'
-            }
+    stage('Push Docker Image') {
+      steps {
+        withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKER_TOKEN')]) {
+          sh '''
+            echo $DOCKER_TOKEN | docker login -u $DOCKER_HUB_USER --password-stdin
+            docker push $DOCKER_HUB_USER/$IMAGE_NAME:latest
+          '''
         }
+      }
+    }
 
     stage('Deploy to Kubernetes') {
-  steps {
-    sh '''
-      kubectl config use-context minikube
-      kubectl apply -f deployment.yaml
-      kubectl apply -f service.yaml
-    '''
-  }
-}
-
+      steps {
+        sh '''
+          kubectl config use-context minikube
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
+        '''
+      }
+    }
   }
 }
