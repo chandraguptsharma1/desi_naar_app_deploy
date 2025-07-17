@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   // baseUrl: 'https://3g-management-backend.vercel.app/api',
 
-  baseUrl: 'https://desinaar-backend.onrender.com/api',
+  // baseUrl: 'https://desinaar-backend.onrender.com/api',
+  baseUrl: 'https://desinaar-backend-34b4.onrender.com/api'
 
   // baseUrl: 'http://localhost:5000/api',
 };
