@@ -2,8 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_HUB_USER = 'samchandra1100' //  username docker 
-    IMAGE_NAME = 'desi-naar-app' //docker hub 
+    IMAGE_NAME = 'desi-naar-app'
   }
 
   triggers {
@@ -31,27 +30,15 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:latest .'
+        sh 'docker build -t $IMAGE_NAME .'
       }
     }
 
-    stage('Push Docker Image') {
-      steps {
-        withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKER_TOKEN')]) {
-          sh '''
-            echo $DOCKER_TOKEN | docker login -u $DOCKER_HUB_USER --password-stdin
-            docker push $DOCKER_HUB_USER/$IMAGE_NAME:latest
-          '''
-        }
-      }
-    }
-
-    stage('Deploy to Kubernetes') {
+    stage('Run Docker Container') {
       steps {
         sh '''
-          kubectl config use-context minikube
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
+          docker rm -f $IMAGE_NAME || true
+          docker run -d --name $IMAGE_NAME -p 4200:80 $IMAGE_NAME
         '''
       }
     }
