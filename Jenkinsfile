@@ -4,7 +4,7 @@ pipeline {
   environment {
     APP_NAME = 'desi-naar-app'
     TIMESTAMP = "${new Date().format('yyyyMMdd-HHmmss')}"
-    IMAGE_TAG = "${APP_NAME}:build-${BUILD_NUMBER}-${TIMESTAMP}"
+    IMAGE_TAG = "${APP_NAME}:build-${BUILD_NUMBER}-${TIMESTAMP}" //image tag to identify
   }
 
   triggers {
