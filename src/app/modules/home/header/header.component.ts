@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   @HostListener('document:click', ['$event.target'])
-onClickOutside(targetElement: HTMLElement) {
-  const clickedInside = targetElement.closest('.relative');
-  if (!clickedInside) {
-    this.isUserMenuOpen = false;
+  onClickOutside(targetElement: HTMLElement) {
+    const clickedInside = targetElement.closest('.relative');
+    if (!clickedInside) {
+      this.isUserMenuOpen = false;
+    }
   }
-}
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
   isDrawerOpen = false;
   isDrawerVisible = false;
   isShopOpen = false;
@@ -64,24 +64,34 @@ onClickOutside(targetElement: HTMLElement) {
     this.router.navigate(['/auth']);
   }
 
-  register(){
+  register() {
     this.router.navigate(['/register'])
   }
 
   isLoggedIn = false; // toggle this based on actual login logic
-isUserMenuOpen = false;
+  isUserMenuOpen = false;
 
-toggleUserMenu() {
-  this.isUserMenuOpen = !this.isUserMenuOpen;
-}
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
 
-logout() {
-  this.isLoggedIn = false;
-  this.isUserMenuOpen = false;
-  // perform actual logout logic
-}
+  logout() {
+    this.isLoggedIn = false;
+    this.isUserMenuOpen = false;
+    // perform actual logout logic
+  }
 
-cartPage(){
-  this.router.navigate(['/cart'])
-}
+  cartPage() {
+    this.router.navigate(['/cart'])
+  }
+
+  closeDrawerAndNavigate(route: string) {
+    console.log("router value", route);
+    this.isDrawerVisible = false;
+    setTimeout(() => {
+      this.isDrawerOpen = false;
+      this.router.navigate([route]);
+    }, 300); // match your animation duration
+  }
+
 }

@@ -13,11 +13,11 @@
 
     <!-- Center Navigation (Desktop) -->
     <nav class="hidden lg:flex space-x-6 text-xs tracking-wider font-medium uppercase">
-      <a (click)="productpage()" class="hover:opacity-80 cursor-pointer">ALL</a>
-      <a href="#" class="hover:opacity-80">NEW ARRIVAL</a>
-      <a href="#" class="hover:opacity-80">CATEGORY</a>
-      <a href="#" class="hover:opacity-80">COLLECTION</a>
-      <a href="#" class="hover:opacity-80">CONTACT US</a>
+      <a (click)="closeDrawerAndNavigate('/products')" class="hover:opacity-80 cursor-pointer">ALL</a>
+      <a (click)="closeDrawerAndNavigate('/new-arrival')" class="hover:opacity-80">NEW ARRIVAL</a>
+      <a (click)="closeDrawerAndNavigate('/category')" class="hover:opacity-80">CATEGORY</a>
+      <a (click)="closeDrawerAndNavigate('/collection')" class="hover:opacity-80">COLLECTION</a>
+      <a (click)="closeDrawerAndNavigate('/contact')" class="hover:opacity-80">CONTACT US</a>
     </nav>
 
     <!-- Right Icons -->
